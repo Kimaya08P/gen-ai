@@ -1,0 +1,37 @@
+.app-container {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    background-color: #fafafa;
+  }
+  
+  h1 {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 30px;
+  }
+  
+  .chart-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 30px;
+  }
+  
+  .chart {
+    width: 100%;
+    max-width: 600px;
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+  }
+  
+  h2 {
+    text-align: center;
+    color: #333;
+  }
+  
+  .plotly-graph-div {
+    border-radius: 8px;
+  }
+  
