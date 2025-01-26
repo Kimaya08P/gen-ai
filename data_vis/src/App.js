@@ -1,148 +1,98 @@
-// Install required packages
-// npm install react-plotly.js plotly.js
+import React, { useState, useEffect } from "react";
+import Plot from "react-plotly.js";
+import './App.css'
 
-import React from 'react';
-import Plot from 'react-plotly.js';
+const App = () => {
+  const departments = ["Finance", "HR", "IT", "Marketing", "Sales"];
+  const dataByYear = [
+    { year: "2014", headcounts: [96, 471, 59, 133, 32] },
+    { year: "2015", headcounts: [129, 379, 204, 59, 81] },
+    { year: "2016", headcounts: [59, 511, 200, 68, 49] },
+  ];
 
-const ChartContainer = () => {
+  const totalFrames = 100;
+  const [animationFrame, setAnimationFrame] = useState(0);
+  const [animatedData, setAnimatedData] = useState([]);
+
+  const colors = ["#FF5733", "#33FF57", "#3357FF", "#F3FF33", "#FF33F3"];
+
+  // Function to generate initial data with 0 height for bars
+  const generateInitialData = () =>
+    departments.map((dept, index) => ({
+      x: dataByYear.map((item) => item.year),
+      y: Array(dataByYear.length).fill(0), // Bars start at 0 height
+      type: "bar",
+      name: dept,
+      marker: {
+        color: "rgba(0, 0, 0, 0)", // Transparent to simulate glass effect
+        line: {
+          color: colors[index],
+          width: 1,
+        },
+      },
+      hovertemplate: `<b>%{x}</b><br>%{y} headcount in %{name} department`, // Custom hover info
+    }));
+
+  // Function to generate building-up data for each frame
+  const generateBuildingUpData = () => {
+    const newData = departments.map((dept, index) => ({
+      x: dataByYear.map((item) => item.year),
+      y: dataByYear.map(
+        (item) =>
+          (item.headcounts[index] * animationFrame) / totalFrames // Increment height gradually
+      ),
+      type: "bar",
+      name: dept,
+      marker: {
+        color: `rgba(${parseInt(colors[index].slice(1, 3), 16)}, 
+                     ${parseInt(colors[index].slice(3, 5), 16)}, 
+                     ${parseInt(colors[index].slice(5, 7), 16)}, 
+                     0.5)`, // Semi-transparent color for glassy effect
+        line: {
+          color: colors[index],
+          width: 2, // Thin border for the glass effect
+        },
+      },
+      hovertemplate: `<b>%{x}</b><br>%{y} headcount in %{name} department`, // Custom hover info
+    }));
+    setAnimatedData(newData);
+  };
+
+  // Animation effect for the building-up process
+  useEffect(() => {
+    if (animationFrame <= totalFrames) {
+      generateBuildingUpData(); // Update bars for the current frame
+      const timer = setTimeout(() => setAnimationFrame(animationFrame + 1), 30); // Control animation speed
+      return () => clearTimeout(timer);
+    }
+  }, [animationFrame]);
+
+  // Initialize data on first render
+  useEffect(() => {
+    setAnimatedData(generateInitialData());
+  }, []);
+
+  // Layout configuration for Plotly
+  const layout = {
+    title: "Department Headcount Over Years ",
+    barmode: "group",
+    xaxis: { title: "Year", color: "#FFFFFF" }, // White text for axis labels
+    yaxis: { title: "Total Headcount", range: [0, 600], color: "#FFFFFF" }, // White labels for y-axis
+    showlegend: true,
+    plot_bgcolor: "#1f1f1f", // Dark background to enhance the glass effect
+    paper_bgcolor: "#1f1f1f", // Dark background for the entire layout
+    font: { color: "#FFFFFF" }, // White text for title and labels
+    transition: {
+      duration: 0, // Disable built-in transitions for manual animation
+    },
+  };
+
   return (
-    <div>
-      {/* Bar Graph */}
-      <h2>Bar Graph</h2>
-      <Plot
-        data={[
-          {
-            x: ['A', 'B', 'C', 'D', 'E'],
-            y: [20, 14, 23, 25, 18],
-            type: 'bar',
-            marker: { color: 'rgb(58,200,225)' },
-          },
-        ]}
-        layout={{
-          title: 'Bar Graph Example',
-          xaxis: { title: 'Categories' },
-          yaxis: { title: 'Values' },
-          transition: { duration: 500 },
-        }}
-        config={{ responsive: true }}
-      />
-
-      {/* Pie Chart */}
-      <h2>Pie Chart</h2>
-      <Plot
-        data={[
-          {
-            values: [19, 26, 55, 20, 14],
-            labels: ['A', 'B', 'C', 'D', 'E'],
-            type: 'pie',
-            textinfo: 'label+percent',
-            insidetextorientation: 'radial',
-          },
-        ]}
-        layout={{
-          title: 'Pie Chart Example',
-          transition: { duration: 500 },
-        }}
-        config={{ responsive: true }}
-      />
-
-      {/* Line Chart */}
-      <h2>Line Chart</h2>
-      <Plot
-        data={[
-          {
-            x: [1, 2, 3, 4, 5],
-            y: [10, 15, 13, 17, 21],
-            type: 'scatter',
-            mode: 'lines+markers',
-            line: { color: 'rgb(220,20,60)' },
-          },
-        ]}
-        layout={{
-          title: 'Line Chart Example',
-          xaxis: { title: 'X Axis' },
-          yaxis: { title: 'Y Axis' },
-          transition: { duration: 500 },
-        }}
-        config={{ responsive: true }}
-      />
-
-      {/* Radar Chart */}
-      <h2>Radar Chart</h2>
-      <Plot
-        data={[
-          {
-            type: 'scatterpolar',
-            r: [39, 28, 8, 7, 28],
-            theta: ['A', 'B', 'C', 'D', 'E'],
-            fill: 'toself',
-            name: 'Group A',
-          },
-        ]}
-        layout={{
-          title: 'Radar Chart Example',
-          polar: {
-            radialaxis: {
-              visible: true,
-              range: [0, 50],
-            },
-          },
-          transition: { duration: 500 },
-        }}
-        config={{ responsive: true }}
-      />
-
-      {/* Scatter Plot */}
-      <h2>Scatter Plot</h2>
-      <Plot
-        data={[
-          {
-            x: [1, 2, 3, 4, 5],
-            y: [2, 3, 4, 5, 6],
-            mode: 'markers',
-            marker: {
-              size: 14,
-              color: [10, 20, 30, 40, 50],
-              colorscale: 'Viridis',
-              showscale: true,
-            },
-          },
-        ]}
-        layout={{
-          title: 'Scatter Plot Example',
-          xaxis: { title: 'X Axis' },
-          yaxis: { title: 'Y Axis' },
-          transition: { duration: 500 },
-        }}
-        config={{ responsive: true }}
-      />
-
-      {/* Heatmap */}
-      <h2>Heatmap</h2>
-      <Plot
-        data={[
-          {
-            z: [
-              [1, 20, 30, 50, 1],
-              [20, 1, 60, 80, 30],
-              [30, 60, 1, -10, 20],
-              [50, 80, -10, 1, 60],
-              [1, 30, 20, 60, 1],
-            ],
-            x: ['A', 'B', 'C', 'D', 'E'],
-            y: ['P', 'Q', 'R', 'S', 'T'],
-            type: 'heatmap',
-            colorscale: 'Blues',
-          },
-        ]}
-        layout={{
-          title: 'Heatmap Example',
-          transition: { duration: 500 },
-        }}
-        config={{ responsive: true }}
-      />
+    <div style={{ backgroundColor: "#1f1f1f", padding: "20px", minHeight: "100vh" }}>
+      <h1 style={{ color: "white", textAlign: "center" }}>Bar Graph Animation</h1>
+      <Plot data={animatedData} layout={layout} />
     </div>
   );
 };
 
-export default ChartContainer;
+export default App;

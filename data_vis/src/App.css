@@ -1,38 +1,189 @@
-.App {
-  text-align: center;
+/* Global Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+/* Body Styles */
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: #1f1f1f; /* Dark background for the body */
   color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden;
 }
 
-.App-link {
-  color: #61dafb;
+/* Container for the whole app */
+.app-container {
+  background-color: rgba(0, 0, 0, 0.5); /* Slight dark background */
+  border-radius: 15px;
+  padding: 30px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6); /* Soft shadow for depth */
+  max-width: 90vw;
+  min-width: 650px;
+  text-align: center;
+  backdrop-filter: blur(10px); /* Glassy effect */
+  transition: all 0.3s ease-in-out; /* Smooth transition */
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+/* Title Style */
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  letter-spacing: 1px;
+  text-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Soft shadow for text */
+}
+
+/* Plot Style */
+.plotly-graph-div {
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); /* Shadow around the plot */
+}
+
+/* Adding animation to the plot container */
+.plotly-graph-div:hover {
+  transform: scale(1.02);
+  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3); /* Shadow on hover */
+  transition: all 0.3s ease-in-out;
+}
+
+/* Adding modern button styles (in case you add any buttons later) */
+button {
+  padding: 12px 20px;
+  background-color: #FF5733;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  background-color: #FF4518;
+  transform: translateY(-3px);
+}
+
+/* Styling for animations and hover effects */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
   }
-  to {
-    transform: rotate(360deg);
+  100% {
+    opacity: 1;
   }
+}
+
+.fade-in {
+  animation: fadeIn 1s ease-out;
+}
+
+/* Adding glass effect to some components (like the title) */
+.glassy-effect {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 10px 20px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+/* Global Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Body Styles */
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: #1f1f1f;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Container for the chart */
+.app-container {
+  background-color: rgba(0, 0, 0, 0.5); /* Slight dark background */
+  border-radius: 15px;
+  padding: 30px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6); /* Soft shadow for depth */
+  max-width: 90vw;
+  min-width: 650px;
+  text-align: center;
+  backdrop-filter: blur(10px); /* Glassy effect */
+  transition: all 0.3s ease-in-out; /* Smooth transition */
+}
+
+/* Title Style */
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  letter-spacing: 1px;
+  text-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Soft shadow for text */
+}
+
+/* Plotly Graph Enhancements */
+.plotly-graph-div {
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); /* Shadow around the plot */
+  transition: all 0.3s ease-in-out;
+}
+
+/* Glass effect on plot */
+.plotly-graph-div:hover {
+  transform: scale(1.02);
+  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3); /* Shadow on hover */
+}
+
+/* Custom Bar Styling */
+.plotly-graph-div .bar {
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Soft shadow to give depth */
+  transition: all 0.3s ease;
+}
+
+/* Hover Effect on Bars */
+.plotly-graph-div .bar:hover {
+  transform: scale(1.1);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4); /* Larger shadow on hover */
+}
+
+/* Title and Labels Enhancement */
+.xaxis text, .yaxis text {
+  font-size: 16px;
+  font-weight: bold;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Gridline Customization */
+.xaxis, .yaxis {
+  gridcolor: rgba(255, 255, 255, 0.1); /* Light gridlines */
+  zerolinecolor: rgba(255, 255, 255, 0.3); /* Light color for the zero lines */
+}
+
+/* Custom Axis Labels with Glass Effect */
+.axis-label {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 8px;
+  border-radius: 5px;
+  backdrop-filter: blur(5px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Adding glassy hover effect to the plot container */
+.plot-container {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 15px;
+  padding: 15px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
 }
