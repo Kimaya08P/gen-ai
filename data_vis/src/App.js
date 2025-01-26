@@ -1,147 +1,148 @@
-import React from "react";
-import { Bar, Pie, Line, Radar, Scatter } from "react-chartjs-2";
-import { Chart as ChartJS, registerables } from "chart.js";
-import "chartjs-plugin-annotation";
-import "chartjs-plugin-datalabels";
-import "./chartAnimationgit.css";
+// Install required packages
+// npm install react-plotly.js plotly.js
 
-ChartJS.register(...registerables);
+import React from 'react';
+import Plot from 'react-plotly.js';
 
-const ChartWithAnimation = () => {
-  const commonOptions = {
-    responsive: true,
-    plugins: {
-      legend: {
-        display: true,
-        position: "top",
-        labels: {
-          color: "#fff", // Adjust legend text color for dark theme
-        },
-      },
-      tooltip: {
-        enabled: true,
-        backgroundColor: "#444", // Tooltip background for dark theme
-        titleColor: "#fff", // Tooltip title color
-        bodyColor: "#fff", // Tooltip body color
-      },
-    },
-    scales: {
-      x: {
-        ticks: {
-          color: "#ccc", // X-axis tick color for dark theme
-        },
-        grid: {
-          color: "#555", // X-axis grid color for dark theme
-        },
-      },
-      y: {
-        ticks: {
-          color: "#ccc", // Y-axis tick color for dark theme
-        },
-        grid: {
-          color: "#555", // Y-axis grid color for dark theme
-        },
-      },
-    },
-  };
-
-  const barData = {
-    labels: ["Dimension A", "Dimension B", "Dimension C", "Dimension D", "Dimension E"],
-    datasets: [
-      {
-        label: "Bar Dataset",
-        data: [30, 50, 70, 20, 90],
-        backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#9966FF"],
-        borderColor: "#fff",
-        borderWidth: 1,
-      },
-    ],
-  };
-
-  const pieData = {
-    labels: ["Red", "Blue", "Yellow", "Green", "Purple"],
-    datasets: [
-      {
-        data: [20, 30, 50, 10, 40],
-        backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#9966FF"],
-        hoverOffset: 10,
-      },
-    ],
-  };
-
-  const lineData = {
-    labels: ["Jan", "Feb", "Mar", "Apr", "May"],
-    datasets: [
-      {
-        label: "Line Dataset",
-        data: [10, 40, 30, 70, 50],
-        fill: true,
-        borderColor: "#FF6384",
-        backgroundColor: "rgba(255, 99, 132, 0.2)",
-        tension: 0.4,
-      },
-    ],
-  };
-
-  const radarData = {
-    labels: ["Speed", "Strength", "Stamina", "Agility", "Endurance"],
-    datasets: [
-      {
-        label: "Radar Dataset",
-        data: [50, 60, 70, 80, 90],
-        backgroundColor: "rgba(75, 192, 192, 0.4)",
-        borderColor: "#4BC0C0",
-        pointBackgroundColor: "#FF6384",
-        pointBorderColor: "#FFF",
-      },
-    ],
-  };
-
-  const scatterData = {
-    datasets: [
-      {
-        label: "Scatter Dataset",
-        data: [
-          { x: 10, y: 20 },
-          { x: 15, y: 10 },
-          { x: 20, y: 30 },
-          { x: 25, y: 40 },
-          { x: 30, y: 50 },
-        ],
-        backgroundColor: "#FF6384",
-      },
-    ],
-  };
-
+const ChartContainer = () => {
   return (
-    <div style={{ backgroundColor: "#222", color: "#fff", minHeight: "100vh", padding: "20px" }}>
-      <h2 className="bar-chart-title">Bar Chart</h2>
-      <div className="bar-chart">
-        <Bar data={barData} options={commonOptions} />
-      </div>
+    <div>
+      {/* Bar Graph */}
+      <h2>Bar Graph</h2>
+      <Plot
+        data={[
+          {
+            x: ['A', 'B', 'C', 'D', 'E'],
+            y: [20, 14, 23, 25, 18],
+            type: 'bar',
+            marker: { color: 'rgb(58,200,225)' },
+          },
+        ]}
+        layout={{
+          title: 'Bar Graph Example',
+          xaxis: { title: 'Categories' },
+          yaxis: { title: 'Values' },
+          transition: { duration: 500 },
+        }}
+        config={{ responsive: true }}
+      />
 
-      <h2 className="pie-chart-title">Pie Chart</h2>
-      <div className="pie-chart">
-        <Pie data={pieData} options={commonOptions} />
-      </div>
-    
+      {/* Pie Chart */}
+      <h2>Pie Chart</h2>
+      <Plot
+        data={[
+          {
+            values: [19, 26, 55, 20, 14],
+            labels: ['A', 'B', 'C', 'D', 'E'],
+            type: 'pie',
+            textinfo: 'label+percent',
+            insidetextorientation: 'radial',
+          },
+        ]}
+        layout={{
+          title: 'Pie Chart Example',
+          transition: { duration: 500 },
+        }}
+        config={{ responsive: true }}
+      />
 
-      <h2 className="line-chart-title">Line Chart</h2>
-      <div className="line-chart">
-        <Line data={lineData} options={commonOptions} />
-      </div>
+      {/* Line Chart */}
+      <h2>Line Chart</h2>
+      <Plot
+        data={[
+          {
+            x: [1, 2, 3, 4, 5],
+            y: [10, 15, 13, 17, 21],
+            type: 'scatter',
+            mode: 'lines+markers',
+            line: { color: 'rgb(220,20,60)' },
+          },
+        ]}
+        layout={{
+          title: 'Line Chart Example',
+          xaxis: { title: 'X Axis' },
+          yaxis: { title: 'Y Axis' },
+          transition: { duration: 500 },
+        }}
+        config={{ responsive: true }}
+      />
 
-      <h2 className="radar-chart-title">Radar Chart</h2>
-      <div className="radar-chart">
-        <Radar data={radarData} options={commonOptions} />
-      </div>
+      {/* Radar Chart */}
+      <h2>Radar Chart</h2>
+      <Plot
+        data={[
+          {
+            type: 'scatterpolar',
+            r: [39, 28, 8, 7, 28],
+            theta: ['A', 'B', 'C', 'D', 'E'],
+            fill: 'toself',
+            name: 'Group A',
+          },
+        ]}
+        layout={{
+          title: 'Radar Chart Example',
+          polar: {
+            radialaxis: {
+              visible: true,
+              range: [0, 50],
+            },
+          },
+          transition: { duration: 500 },
+        }}
+        config={{ responsive: true }}
+      />
 
-      <h2 className="scatter-chart-title">Scatter Plot</h2>
-      <div className="scatter-chart">
-        <Scatter data={scatterData} options={commonOptions} />
-      </div>
+      {/* Scatter Plot */}
+      <h2>Scatter Plot</h2>
+      <Plot
+        data={[
+          {
+            x: [1, 2, 3, 4, 5],
+            y: [2, 3, 4, 5, 6],
+            mode: 'markers',
+            marker: {
+              size: 14,
+              color: [10, 20, 30, 40, 50],
+              colorscale: 'Viridis',
+              showscale: true,
+            },
+          },
+        ]}
+        layout={{
+          title: 'Scatter Plot Example',
+          xaxis: { title: 'X Axis' },
+          yaxis: { title: 'Y Axis' },
+          transition: { duration: 500 },
+        }}
+        config={{ responsive: true }}
+      />
+
+      {/* Heatmap */}
+      <h2>Heatmap</h2>
+      <Plot
+        data={[
+          {
+            z: [
+              [1, 20, 30, 50, 1],
+              [20, 1, 60, 80, 30],
+              [30, 60, 1, -10, 20],
+              [50, 80, -10, 1, 60],
+              [1, 30, 20, 60, 1],
+            ],
+            x: ['A', 'B', 'C', 'D', 'E'],
+            y: ['P', 'Q', 'R', 'S', 'T'],
+            type: 'heatmap',
+            colorscale: 'Blues',
+          },
+        ]}
+        layout={{
+          title: 'Heatmap Example',
+          transition: { duration: 500 },
+        }}
+        config={{ responsive: true }}
+      />
     </div>
   );
 };
 
-export default ChartWithAnimation;
+export default ChartContainer;
